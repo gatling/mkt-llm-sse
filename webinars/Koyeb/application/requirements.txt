@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+qdrant-client
+sentence-transformers
+jinja2
+python-dotenv
+ollama

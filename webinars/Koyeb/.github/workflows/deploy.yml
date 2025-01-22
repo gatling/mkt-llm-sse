@@ -1,0 +1,49 @@
+name: Deploy to Koyeb
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: "${{ github.ref_name }}"
+      cancel-in-progress: true
+    steps:
+      - name: Install and configure the Koyeb CLI
+        uses: koyeb-community/koyeb-actions@v2
+        with:
+          api_token: "${{ secrets.KOYEB_API_TOKEN }}"
+
+      - name: Create application secret
+        uses: koyeb/action-git-deploy/secret@v1
+        with:
+            secret-name: QDRANT_API_TOKEN
+            secret-value: "${{ secrets.QDRANT_API_TOKEN }}"
+
+      - name: Create application secret
+        uses: koyeb/action-git-deploy/secret@v1
+        with:
+            secret-name: OLLAMA_URL
+            secret-value: "${{ secrets.OLLAMA_URL }}"
+
+      - name: Create application secret
+        uses: koyeb/action-git-deploy/secret@v1
+        with:
+            secret-name: QDRANT_URL
+            secret-value: "${{ secrets.QDRANT_URL }}"
+
+      - name: Build and deploy the application to Koyeb
+        uses: koyeb/action-git-deploy@v1
+        with:
+          app-name: ecommerce-chatbot
+          service-name: ecommerce-chatbot
+          service-env: OLLAMA_BASE_URL=@OLLAMA_URL,QDRANT_HOST=@QDRANT_URL,QDRANT_API=@QDRANT_API_TOKEN
+          service-ports: "8000:http"
+          service-routes: "/:8000"
+          service-checks: "8000:tcp"
+          git-builder: "docker"
+          service-instance-type: "small"
+          git-workdir: application

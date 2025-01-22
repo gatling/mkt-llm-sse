@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStore</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>TechStore Chatbot</h1>
+            <div class="metrics-display" id="metrics">
+                <div class="metric">
+                    <span class="metric-label">Total time:</span>
+                    <span class="metric-value" id="total-time">-</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Embedding:</span>
+                    <span class="metric-value" id="embedding-time">-</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Search:</span>
+                    <span class="metric-value" id="search-time">-</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">LLM:</span>
+                    <span class="metric-value" id="llm-time">-</span>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="chat-container">
+                <div class="chat-messages" id="chat-messages">
+                    <!-- Messages will be added here dynamically -->
+                </div>
+                
+                <div class="context-panel" id="context-panel">
+                    <h3>Context Used</h3>
+                    <div class="context-content" id="context-content">
+                        <!-- Context will be added here dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-container">
+                <textarea 
+                    id="user-input" 
+                    placeholder="Ask your question here..."
+                    rows="2"
+                ></textarea>
+                <button id="send-button" type="button">
+                    <span class="button-text">Send</span>
+                    <div class="button-loader" style="display: none;"></div>
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', path='/js/chat.js') }}"></script>
+</body>
+</html>
